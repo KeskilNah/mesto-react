@@ -76,6 +76,7 @@ class Api {
   }
 }
 
-export const readyApi = new Api ({url: 'https://mesto.nomoreparties.co/v1/cohort-45', 
+const readyApi = new Api ({url: 'https://mesto.nomoreparties.co/v1/cohort-45', 
 headers:{authorization: 'de4ccc24-3897-4b25-93ca-7c2376f1a4ac',
 "Content-Type": "application/json",}})
+ export default readyApi;

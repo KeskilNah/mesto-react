@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import penIcoPath from '../images/icons/avatar-edit.svg'
-import { readyApi } from '../utils/Api';
+import { Api } from '../utils/Api';
 import { Card } from './Card';
 
 function Main(props) {
@@ -11,7 +11,7 @@ function Main(props) {
   const [cards, setCards] = useState([])
 
   React.useEffect(() => {
-    Promise.all([readyApi.getUserInfo(), readyApi.getCards()])
+    Promise.all([Api.getUserInfo(), Api.getCards()])
     .then(([user, cards]) => {
       setUserName(user.name);
       setUserDescription(user.about)

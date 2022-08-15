@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function PopupWithImage (props) {
+export default function ImagePopup (props) {
   
   React.useEffect(() => {
     const handleEscClose = (evt) => {
