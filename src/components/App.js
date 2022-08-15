@@ -30,7 +30,7 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(null);
 
   const handleCardClick = (card) => {
-    console.log(card)
+
     setSelectedCard(card);
     document.addEventListener('keydown', handleEscClose)
   }
