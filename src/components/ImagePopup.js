@@ -1,26 +1,26 @@
 import React from "react"
 
-export default function ImagePopup (props) {
+export default function ImagePopup ({onClose, isOpen, name, card}) {
   
   React.useEffect(() => {
     const handleEscClose = (evt) => {
       if(evt.key === 'Escape') {
-        props.onClose()
+        onClose()
       }
     };
-    if (props.isOpen) {
+    if (isOpen) {
       document.addEventListener('keydown', handleEscClose);
     } else {
       document.removeEventListener('keydown', handleEscClose);
     }
-  }, [props.isOpen])
+  }, [isOpen, onClose])
 
   return (
-    <div className={`${props.name}-popup popup ${props.isOpen ? 'popup_opened' : ''}`} onClick={props.onClose}>
-    <div className={`${props.name}-popup__container`} onClick={(evt) => {evt.stopPropagation()}}>
-      <button onClick={props.onClose} className={`${props.name}-popup__exit popup__close`}></button>
-      <p className={`${props.name}-popup__title`}>{props.card?.alt ?? ''}</p>
-      <img src={`${props.card?.src ?? ''}`} alt={`${props.card?.alt ?? ''}`} className={`${props.name}-popup__pic`}/>
+    <div className={`${name}-popup popup ${isOpen ? 'popup_opened' : ''}`} onClick={() => {onClose()}}>
+    <div className={`${name}-popup__container`} onClick={(evt) => {evt.stopPropagation()}}>
+      <button onClick={() => {onClose()}} className={`${name}-popup__exit popup__close`}></button>
+      <p className={`${name}-popup__title`}>{card?.alt ?? ''}</p>
+      <img src={`${card?.src ?? ''}`} alt={`${card?.alt ?? ''}`} className={`${name}-popup__pic`}/>
     </div>
   </div>
   )

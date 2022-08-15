@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import penIcoPath from '../images/icons/avatar-edit.svg'
-import { Api } from '../utils/Api';
+import Api  from '../utils/Api';
 import { Card } from './Card';
 
 function Main(props) {
