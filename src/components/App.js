@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Header from './header';
-import Main from './main';
-import Footer from './footer';
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
-import PopupWithImage from './PopupWithImage';
+import ImagePopup from './ImagePopup';
 
 
 function App() {
@@ -115,7 +115,7 @@ function App() {
       <p className="popup__error input-link-error">asd</p>
     </div>
     }/>
-  <PopupWithImage name="image" isOpen={!!selectedCard} onClose={closeAllPopups} card={selectedCard}/>
+  <ImagePopup name="image" isOpen={!!selectedCard} onClose={closeAllPopups} card={selectedCard}/>
   
   <div className="page__wrapper">
   <Header />
