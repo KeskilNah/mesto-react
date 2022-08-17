@@ -11,7 +11,7 @@ export function Card (props) {
         <p className="item__text">{props.name}</p>
         <div>
           <button type="button" className="item__like"></button>
-          <p className="item__number">{props.likes.length}</p>
+          <p className="item__number">{props.likes}</p>
         </div>
       </div>
       <button className="item__delete"></button>
