@@ -5,16 +5,16 @@ export function Card (props) {
     props.onCardClick(item.target)
   }
   return (
-    props.card.map ((item, i) => (<li key={i} className="item">
-      <img src={item.link} alt={item.name} className="item__image" onClick={handleClick}/>
+    <li className="item">
+      <img src={props.link} alt={props.name} className="item__image" onClick={handleClick}/>
       <div className="item__description">
-        <p className="item__text">{item.name}</p>
+        <p className="item__text">{props.name}</p>
         <div>
           <button type="button" className="item__like"></button>
-          <p className="item__number">{item.likes.length}</p>
+          <p className="item__number">{props.likes.length}</p>
         </div>
       </div>
       <button className="item__delete"></button>
-    </li>))
+    </li>
   )
-}
+} 

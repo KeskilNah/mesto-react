@@ -43,8 +43,9 @@ function Main(props) {
       </section>
       <section className="gallery"> 
         <ul className="gallery__items">
-        <Card  card={cards} onCardClick={props.onCardClick}/>
-
+        {cards.map((data) => (
+        <Card key={data._id} card={data} onCardClick={props.onCardClick} link={data.link} likes={data.likes.length} name={data.name}/>
+      ))}
       </ul>
       </section>
     </main>

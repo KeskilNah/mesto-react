@@ -1,18 +1,36 @@
-export default function PopupWithForm (props) {
-  
+import React from "react"
+
+export default function PopupWithForm ({onClose, isOpen, name, title, children}) {
+  React.useEffect(() => {
+    const handleEscClose = (evt) => {
+      if(evt.key === 'Escape') {
+        onClose()
+      }
+    };
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscClose);
+    } else {
+      document.removeEventListener('keydown', handleEscClose);
+    }
+  }, [isOpen, onClose])
 
   return (
-    <div className={`${props.name}-popup popup ${props.isOpen ? 'popup_opened' : ''}`} onClick={props.onClose}>
-    <div className={`${props.name}-popup__container`} onClick={(evt) => {evt.stopPropagation()}}>
-      <button className={`${props.name}-popup__exit popup__close`} onClick={props.onClose}></button>
-      <h2 className={`${props.name}-popup__title`}>{`${props.title}`}</h2>
-      <form className={`${props.name}-popup__form popup__form`} name={`${props.name}-form`} noValidate>
+  <div className={`${name}-popup popup ${isOpen ? 'popup_opened' : ''}` } onClick={(evt) => {
+    if (evt.target.classList.contains('popup_opened')) {
+      onClose()
+    }
+    }}>
+    <div className={`${name}-popup__container`} >
+      <button className={`${name}-popup__exit popup__close`} onClick={() => onClose()}/>
+      <h2 className={`${name}-popup__title`}>{`${title}`}</h2>
+      <form className={`${name}-popup__form popup__form`} name={`${name}-form`} noValidate>
         <div className="popup__inputs">
-        {props.children}
+        {children}
         </div>
-        <button type="submit" className={`${props.name}-popup__save-button popup__button`}>Создать</button>
+        <button type="submit" className={`${name}-popup__save-button popup__button`}>Создать</button>
       </form>
     </div>
   </div>
+
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -11,20 +11,17 @@ function App() {
 
   const handleEditProfileClick = () => {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
-    document.addEventListener('keydown', handleEscClose)
   }
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   
   const handleAddPlaceClick = () => {
     setAddPlacePopupOpen(!isAddPlacePopupOpen);
-    document.addEventListener('keydown', handleEscClose)
   }
 
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   
   const handleEditAvatarClick = () => {
     setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
-    document.addEventListener('keydown', handleEscClose)
   }
 
   const [selectedCard, setSelectedCard] = React.useState(null);
@@ -32,31 +29,21 @@ function App() {
   const handleCardClick = (card) => {
 
     setSelectedCard(card);
-    document.addEventListener('keydown', handleEscClose)
   }
-
-  const [isPopupOpen, setPopupOpen] = useState(false);
-  const handleEscClose = (evt) => {
-    if (evt.key === 'Escape') {
-      setPopupOpen(!isPopupOpen)
-    }
-  }
-
-
 
   const closeAllPopups = () => {
     setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setSelectedCard(null)
-    document.removeEventListener('keydown', handleEscClose)
+
   }
 
 
   return (
     <div className="App">
 
-  <PopupWithForm name="edit" title="Редактировать профильь" onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} children=
+  <PopupWithForm name="edit" title="Редактировать профиль" children=
   {
   <div className="popup__inputs">
         <input 
@@ -78,8 +65,9 @@ function App() {
           id="input-link"/>
         <p className="popup__error input-link-error">asd</p>
       </div>
-    }/>
-  <PopupWithForm name="adding" title="Новое местоо" onClose={closeAllPopups} isOpen={isAddPlacePopupOpen} children={
+    }
+    onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} />
+  <PopupWithForm name="adding" title="Новое место" children={
   <div className="popup__inputs">
   <input 
     type="text" 
@@ -100,10 +88,11 @@ function App() {
     id="input-link"/>
   <p className="popup__error input-link-error">asd</p>
 </div>
-  }/>
+  }
+  onClose={closeAllPopups} isOpen={isAddPlacePopupOpen} />
 
-  <PopupWithForm name="delete" title="Вы уверены??" onClose={closeAllPopups} children=""/>
-  <PopupWithForm name="avatar" title="Обновить аватарр" onClose={closeAllPopups} isOpen={isEditAvatarPopupOpen} children={
+  <PopupWithForm name="delete" title="Вы уверены?" onClose={closeAllPopups} children=""/>
+  <PopupWithForm name="avatar" title="Обновить аватар" children={
       <div className="popup__inputs">
       <input 
         type="url" 
@@ -114,7 +103,8 @@ function App() {
         id="input-link"/>
       <p className="popup__error input-link-error">asd</p>
     </div>
-    }/>
+    }
+    onClose={closeAllPopups} isOpen={isEditAvatarPopupOpen} />
   <ImagePopup name="image" isOpen={!!selectedCard} onClose={closeAllPopups} card={selectedCard}/>
   
   <div className="page__wrapper">
@@ -128,19 +118,6 @@ function App() {
     <Footer />
 
   </div>
-  <template className="item-template">
-    <li className="item">
-      <img src="#" alt="#" className="item__image" onClick={handleCardClick}/>
-      <div className="item__description">
-        <p className="item__text"></p>
-        <div>
-          <button type="button" className="item__like"></button>
-          <p className="item__number">1</p>
-        </div>
-      </div>
-      <button className="item__delete"></button>
-    </li>
-  </template>
 
     </div>
   );

@@ -53,7 +53,6 @@
 @import url(./blocks/avatar-popup/__form/avatar-popup__form.css);
 @import url(./blocks/avatar-popup/__save-button/avatar-popup__save-button.css);
 
-@import url(./blocks/popup/popup.css);
 @import url(./blocks/popup/__inputs/popup__inputs.css);
 @import url(./blocks/popup/__input/popup__input.css);
 @import url(./blocks/popup/__input/_type/_error/popup__input_type_error.css);
