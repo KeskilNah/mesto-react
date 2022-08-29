@@ -48,7 +48,7 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: link.avatar,
+        avatar: link,
       })
     }).then(this._checkError);
   }

@@ -22,6 +22,8 @@
 @import url(./blocks/item/__like/item__like_active.css);
 @import url(./blocks/item/__like/item__number.css);
 @import url(./blocks/item/__delete/item__delete.css);
+@import url(./blocks/item/__delete/item__delete_hidden.css);
+@import url(./blocks/item/__delete/item__delete_visible.css);
 @import url(./blocks/footer/__author/footer__author.css);
 @import url(./blocks/edit-popup/edit-popup.css);
 @import url(./blocks/edit-popup/__containter/edit-popup__container.css);

@@ -1,29 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import penIcoPath from '../images/icons/avatar-edit.svg'
-import Api  from '../utils/Api';
 import { Card } from './Card';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+
+export const CardsContext = React.createContext();
 
 function Main(props) {
-
-  const [userName, setUserName] = useState('');
-  const [userDescription, setUserDescription] = useState('');
-  const [userAvatar, setUserAvatar] = useState('');
-  const [cards, setCards] = useState([])
-
-  React.useEffect(() => {
-    Promise.all([Api.getUserInfo(), Api.getCards()])
-    .then(([user, cards]) => {
-      setUserName(user.name);
-      setUserDescription(user.about)
-      setUserAvatar(user.avatar)
-      setCards(cards);
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }, [])
-
-
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <main className="main">
@@ -32,19 +15,19 @@ function Main(props) {
           
           <div className="profile__avatar" onClick={props.onEditAvatar}>
             <img src={penIcoPath} alt="карандашик" className="profile__avatar-edit-image"/>
-            <img src={userAvatar} alt="Жак-Ив Кусто" className="profile__avatar-image"/>
+            <img src={currentUser.avatar} alt="Жак-Ив Кусто" className="profile__avatar-image"/>
             
           </div>
-          <h1 className="profile__title">{userName}</h1>
+          <h1 className="profile__title">{currentUser.name}</h1>
           <button type="button" className="profile__edit" onClick={props.onEditProfile}></button>
-          <p className="profile__subtitle">{userDescription}</p>
+          <p className="profile__subtitle">{currentUser.about}</p>
           <button className="profile__button" onClick={props.onAddPlace}></button>
         </div>
       </section>
       <section className="gallery"> 
         <ul className="gallery__items">
-        {cards.map((data) => (
-        <Card key={data._id} card={data} onCardClick={props.onCardClick} link={data.link} likes={data.likes.length} name={data.name}/>
+        {props.cards.map((data) => (
+        <Card key={data._id} card={data} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} onCardClick={props.onCardClick} link={data.link} likes={data.likes.length} name={data.name}/>
       ))}
       </ul>
       </section>
