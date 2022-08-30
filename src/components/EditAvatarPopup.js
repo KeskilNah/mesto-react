@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function EditAvatarPopup({onClose, isOpen, onUpdateAvatar}) {
+export default function EditAvatarPopup({onClose, isOpen, onUpdateAvatar, isRequesting}) {
   const avatarRef = React.useRef();
+  const [isLinkError, setLinkError] = useState('');
+  const [linkErrorMessage, setLinkErrorMessage] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false)
+
+  React.useEffect(() => {
+    setIsFormValid(isLinkError);
+  }, [isLinkError]);
+
   function handleSubmit(e) {
     console.log(avatarRef.current.value)
     e.preventDefault();
@@ -11,8 +19,16 @@ export default function EditAvatarPopup({onClose, isOpen, onUpdateAvatar}) {
     })
   }
 
+  function onChange(){
+    
+    setLinkErrorMessage(avatarRef.current.validity.valid ? '' : avatarRef.current.validationMessage )
+    setLinkError(avatarRef.current.validity.valid ? '' : 'popup__error_visible')
+    console.log(isLinkError)
+    console.log(linkErrorMessage)
+  }
+
   return (
-    <PopupWithForm name="avatar" title="Обновить аватар" buttonText='Сохранить' children={
+    <PopupWithForm name="avatar" title="Обновить аватар" buttonText='Сохранить' buttonActiveText='Сохранение...' isRequesting={isRequesting} children={
       <div className="popup__inputs">
       <input
         ref={avatarRef}
@@ -21,10 +37,11 @@ export default function EditAvatarPopup({onClose, isOpen, onUpdateAvatar}) {
         placeholder="Ссылка на картинку" 
         defaultValue="" 
         required 
-        id="input-link"/>
-      <p className="popup__error input-link-error">asd</p>
+        id="input-link"
+        onChange={onChange}/>
+      <p className={`popup__error ${isLinkError} input-place-error`}>{linkErrorMessage}</p>
     </div>
     }
-    onClose={onClose} isOpen={isOpen} onSubmit={handleSubmit}/>
+    onClose={onClose} isOpen={isOpen} onSubmit={handleSubmit} isFormError={isFormValid}/>
   )
 }

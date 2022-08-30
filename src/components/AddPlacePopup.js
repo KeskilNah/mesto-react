@@ -1,44 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function AddPlacePopup({onClose, isOpen, onAddPlace}) {
-  const placeRef = React.useRef();
-  const urlRef = React.useRef();
+export default function AddPlacePopup({onClose, isOpen, onAddPlace, isRequesting}) {
+  const [place, setPlace] = useState('');
+  const [link, setLink] = useState('');
+  const [isPlaceError, setPlaceError] = useState('');
+  const [isLinkError, setLinkError] = useState('');
+  const [placeErrorMessage, setPlaceErrorMessage] = useState('')
+  const [linkErrorMessage, setLinkErrorMessage] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false)
+
+  React.useEffect(() => {
+    setPlace('');
+    setLink('');
+  }, [isOpen]);
+
+  React.useEffect(() => {
+    setIsFormValid(isPlaceError || isLinkError);
+  }, [isPlaceError, isLinkError]);
 
   function handleSubmit(e) {
-    console.log()
     e.preventDefault();
-    onAddPlace({
-      place: placeRef.current.value,
-      link: urlRef.current.value
-    })
+    onAddPlace({place, link})
   }
+
+  function handleChangePlace(e) {
+    setPlace(e.target.value)
+    setPlaceErrorMessage(e.target.validity.valid ? '' : e.target.validationMessage  )
+    setPlaceError(e.target.validity.valid ? '' : 'popup__error_visible')
+  }
+
+  function handleChangeLink(e) {
+    setLink(e.target.value)
+    setLinkErrorMessage(e.target.validity.valid ? '' : e.target.validationMessage  )
+    setLinkError(e.target.validity.valid ? '' : 'popup__error_visible')
+  }
+
+
   
   return (
-    <PopupWithForm name="adding" title="Новое место" buttonText='Создать' children={
+    <PopupWithForm name="adding" title="Новое место" buttonText='Создать' buttonActiveText='Сохранение...' isRequesting={isRequesting} children={
       <div className="popup__inputs">
       <input 
-        ref={placeRef}
         type="text" 
         className={`adding-popup__text-place popup__input`} 
         placeholder="Название" 
-        defaultValue="" 
+        value={place} 
         required 
         minLength="2" 
         maxLength="30" 
-        id="input-place"/>
-      <p className="popup__error input-place-error">asd</p>
+        id="input-place"
+        onChange={handleChangePlace}
+        onInput={handleChangePlace}/>
+      <p className={`popup__error ${isPlaceError} input-place-error`}>{placeErrorMessage}</p>
       <input 
-        ref={urlRef}
         type="url" 
         className={`adding-popup__text-url popup__input`} 
         placeholder="Ссылка на картинку" 
-        defaultValue="" 
+        value={link}
         required 
-        id="input-link"/>
-      <p className="popup__error input-link-error">asd</p>
+        id="input-link"
+        onChange={handleChangeLink}
+        onInput={handleChangeLink}/>
+      <p className={`popup__error ${isLinkError} input-place-error`}>{linkErrorMessage}</p>
     </div>
       }
-      onClose={onClose} isOpen={isOpen} onSubmit={handleSubmit}/>
+      onClose={onClose} isOpen={isOpen} onSubmit={handleSubmit} isFormError={isFormValid}/>
   )
 }

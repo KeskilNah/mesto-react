@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function PopupWithForm ({onClose, isOpen, name, title, children, onSubmit, buttonText}) {
+export default function PopupWithForm ({onClose, isOpen, name, title, children, onSubmit, buttonText, buttonActiveText, isFormError, isRequesting}) {
   React.useEffect(() => {
     const handleEscClose = (evt) => {
       if(evt.key === 'Escape') {
@@ -14,10 +14,6 @@ export default function PopupWithForm ({onClose, isOpen, name, title, children, 
     }
   }, [isOpen, onClose])
 
-  const [text, setText] = React.useState(buttonText);
-  function changeText() {
-    setText('Сохранение...')
-  }
 
   return (
   <div className={`${name}-popup popup ${isOpen ? 'popup_opened' : ''}` } onClick={(evt) => {
@@ -32,7 +28,9 @@ export default function PopupWithForm ({onClose, isOpen, name, title, children, 
         <div className="popup__inputs">
         {children}
         </div>
-        <button type="submit" className={`${name}-popup__save-button popup__button`} onClick={changeText}>{text}</button>
+        <button type="submit" className={`${name}-popup__save-button popup__button ${isFormError? `popup__button_disabled` : ''}`} disabled={isFormError} >
+          {isRequesting ? buttonText : buttonActiveText}
+          </button>
       </form>
     </div>
   </div>

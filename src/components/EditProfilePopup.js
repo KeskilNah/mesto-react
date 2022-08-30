@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-export default function EditProfilePopup({onClose, isOpen, onUpdateUser}) {
+export default function EditProfilePopup({onClose, isOpen, onUpdateUser, isRequesting}) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const currentUser = React.useContext(CurrentUserContext);
@@ -10,12 +10,17 @@ export default function EditProfilePopup({onClose, isOpen, onUpdateUser}) {
   const [isDescriptionError, setDescriptionError] = useState('');
   const [DescriptionErrorMessage, setDescriptionErrorMessage] = useState('');
   const [NameErrorMessage, setNameErrorMessage] = useState('')
+  const [isFormValid, setIsFormValid] = useState(false)
 
 
   React.useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]); 
+  }, [currentUser, isOpen]); 
+
+  React.useEffect(() => {
+    setIsFormValid(isNameError || isDescriptionError);
+  }, [isNameError, isDescriptionError]);
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
@@ -48,19 +53,19 @@ export default function EditProfilePopup({onClose, isOpen, onUpdateUser}) {
 
 
   return (
-<PopupWithForm name="edit" title="Редактировать профиль" buttonText='Сохранить' children=
+<PopupWithForm name="edit" title="Редактировать профиль" buttonText='Сохранить' buttonActiveText='Сохранение...' isRequesting={isRequesting} children=
         {
       <div className="popup__inputs">
         <input 
           type="text" 
           className={`edit-popup__text-place popup__input`} 
           placeholder="Имя" 
-
           required 
           minLength="2" 
           maxLength="30" 
           id="input-place"
           onChange={handleChangeName}
+          onInput={handleChangeName}
           defaultValue={name}
           />
         <p className={`popup__error ${isNameError} input-place-error`}>{NameErrorMessage}</p>
@@ -72,10 +77,11 @@ export default function EditProfilePopup({onClose, isOpen, onUpdateUser}) {
           placeholder="Род деятельности" 
           defaultValue={description} 
           onChange={handleChangeDescription}
+          onInput={handleChangeDescription}
           required 
           id="input-link"/>
         <p className={`popup__error ${isDescriptionError} input-link-error`}>{DescriptionErrorMessage}</p>
       </div>
     } 
-    onClose={onClose} isOpen={isOpen} onSubmit={handleSubmit} />
+    onClose={onClose} isOpen={isOpen} onSubmit={handleSubmit} isFormError={isFormValid}/>
 )}
